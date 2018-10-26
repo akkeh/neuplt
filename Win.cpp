@@ -92,9 +92,11 @@ void Win::key_callback(GLFWwindow* win, int key, int scancode, int action, int m
 };
 
 Win::~Win() {
-    for(int i=0; i<this->Nax; i++)
-        delete axs[i];
-    delete[] axs;
+    if(this->axs) {
+        for(int i=0; i<this->Nax; i++)
+            delete axs[i];
+        delete[] axs;
+    };
 
     glfwDestroyWindow(this->win);
 };

@@ -20,6 +20,7 @@ public:
     int n;  // current plotted point
 
     void readDat(const char* fn);
+    //void setData();
     void draw();
 
     Plt(Ax* ax);
@@ -27,7 +28,12 @@ public:
 };  // class Plt
 
 class PltXY : public Plt {
+public:
     float* X;
     float* Y;
+    
+    PltXY(Ax* ax) : Plt(ax){};
+    ~PltXY();
+    void setData(float* Y, float* X=NULL);
 };  // class PltXY : Plt
 #endif

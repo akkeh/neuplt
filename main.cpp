@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+
 #include <GLFW/glfw3.h>
 
 #include "Win.h"
@@ -15,11 +17,34 @@ int main() {
     win->addAx(0, 0, 1, 2);
     win->addAx(1, 0, 2, 1);
     win->addAx(1, 1, 2, 2);
+    
+    int N =0; 
+    float* X; float* Y;
+    std::string line;
+    std::ifstream f("Vm.txt");
+    while(getline(f, line)) {
+        N++;
+    }
+    f.close();
+    X = new float[N]; Y = new float[N];
+    f.open("Vm.txt");
+    int i = 0;
+    while(getline(f, line)) {
+        X[i] = atof(line.substr(0, line.find("\t")).c_str());
+        Y[i] = atof(line.substr(line.find("\t"), line.find("\n")).c_str());
+        i++;
+    }
+    f.close();
+    win->axs[0]->addPlt(xy);
+    //win->axs[0]->plts[0]->addData(Y, X);
+
+    ((PltXY*)win->axs[0]->plts[0])->setData(Y, X);
     double time = glfwGetTime();
 
     while(win->draw()) {};
 
     delete win;
+    delete[] X, Y;
     glfwTerminate();
 
     std::cout << "point!\n";
