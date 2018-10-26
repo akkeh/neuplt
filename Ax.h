@@ -11,6 +11,7 @@
     |                   |
     |-------------------|yN
 */                  // xN
+class Plt;
 
 class Ax {
 public:

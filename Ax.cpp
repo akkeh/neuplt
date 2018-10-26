@@ -7,7 +7,7 @@ int Ax::addPlt() {
 };
 
 int Ax::draw() {
-    glColor4s(0, 0, 0, 0);
+    glColor3f(0, 0, 0);
     glBegin(GL_LINES);
         glVertex2f(this->x0, this->y0);
         glVertex2f(this->xN, this->y0);

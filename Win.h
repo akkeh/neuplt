@@ -6,27 +6,30 @@
 
 #include "Ax.h"
 /*      w
-    |-------------------|
-    |  ]   bh        [  |
-    |===================|
- h  |bw] c0 |c1 |c2 |[bw| 
-    |  ] r0 |r0 |r0 |[  |
-    |  ]    |   |   |[  |
-    |  ]----|---|---|[  |
-    |  ] c0 |c1 |c2 |[  |
-    |  ] r1 |r1 |r1 |[  |
-    |  ]    |   |   |[  |
-    |===================|
-    |  ]   bh        [  |
-    |-------------------|
+    |---------------------------|
+    |  ]   bh                [  |
+    |===========================|
+ h  |bw] c0 |  |c1  |  |c2  |[bw| 
+    |  ] r0 |  |r0  |  |r0  |[  |
+    |  ]    |cs|    |cs|    |[  |
+    |  ]----|--|----|--|----|[  |
+    |  ]      rs             [  |
+    |  ]----|--|----|--|----|[  |
+    |  ] c0 |  |c1  |  |c2  |[  |
+    |  ] r1 |  |r1  |  |r1  |[  |
+    |  ]    |  |    |  |    |[  |
+    |===========================|
+    |  ]   bh                [  |
+    |---------------------------|
 */
 class Win {
 public:
-    int w, h;       // width, height
-    int rows, cols; // rows, columns
-    float cw, rh;   // col width, row height
-    int r, c;       // currently filled
-    float bw, bh;     // border width, height
+    int w, h;               // width, height
+    int rows, cols;         // rows, columns
+    float col_w, row_h;     // col width, row height
+    int r, c;               // currently filled
+    float marg_w, marg_h;   // margin width, height
+    float col_sep, row_sep; // col, width separator
     GLFWwindow* win;
     int Nax;
     Ax** axs;

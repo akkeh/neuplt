@@ -12,9 +12,9 @@ int initGLFW();
 int main() {
     initGLFW();
     Win* win = new Win(10, 10, 2, 2);
-    //win->addAx(0, 0, 1, 1);
-    win->addAx(0, 0, 1, 1);
-    win->addAx(0, 1, 1, 2);
+    win->addAx(0, 0, 1, 2);
+    win->addAx(1, 0, 2, 1);
+    win->addAx(1, 1, 2, 2);
     double time = glfwGetTime();
 
     while(win->draw()) {};
