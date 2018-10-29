@@ -36,18 +36,17 @@ int main() {
     }
     f.close();
     win->axs[0]->addPlt(xy);
-    //win->axs[0]->plts[0]->addData(Y, X);
 
-    ((PltXY*)win->axs[0]->plts[0])->setData(Y, X);
+    ((PltXY*)win->axs[0]->plts[0])->setData(N, Y, X);
     double time = glfwGetTime();
 
     while(win->draw()) {};
+    std::cout << "point!\n";
 
     delete win;
     delete[] X, Y;
     glfwTerminate();
 
-    std::cout << "point!\n";
     return 0;
 }
 

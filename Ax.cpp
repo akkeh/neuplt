@@ -18,6 +18,7 @@ int Ax::addPlt(pltT type) {
 };
 
 int Ax::draw() {
+    // draw axis:
     glColor3f(0, 0, 0);
     glBegin(GL_LINES);
         glVertex2f(this->x0, this->y0);
@@ -31,7 +32,10 @@ int Ax::draw() {
 
         glVertex2f(this->x0, this->yN);
         glVertex2f(this->x0, this->y0);
-    glEnd();    
+    glEnd();
+
+    for(int i=0; i<this->pltN; i++)
+        this->plts[i]->draw();
     return 0;
 };
 

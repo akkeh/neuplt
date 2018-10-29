@@ -14,14 +14,15 @@ struct Dat {
 class Plt {
 public:
     Ax* ax;   
+    float x0, y0;
+    float xN, yN;
 
     Dat dat;
     int N;  // # of points
     int n;  // current plotted point
 
     void readDat(const char* fn);
-    //void setData();
-    void draw();
+    virtual void draw() = 0;
 
     Plt(Ax* ax);
     ~Plt();
@@ -31,9 +32,12 @@ class PltXY : public Plt {
 public:
     float* X;
     float* Y;
+    float Xmin, Ymin, Xmax, Ymax;
+    float dx, dy;
     
     PltXY(Ax* ax) : Plt(ax){};
     ~PltXY();
-    void setData(float* Y, float* X=NULL);
+    void setData(int N, float* Y, float* X=NULL);
+    void draw();
 };  // class PltXY : Plt
 #endif
