@@ -1,5 +1,5 @@
-#ifndef NEUPLT_H
-#define NEUPLT_H
+#ifndef WIN_H 
+#define WIN_H
 
 #include <iostream>
 #include <GLFW/glfw3.h>

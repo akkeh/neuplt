@@ -8,11 +8,11 @@ Plt::Plt(Ax* ax) {
     this->y0 = ax->y0;
     this->xN = ax->xN;
     this->yN = ax->yN;
-};
+};  // Plt::Plt();
 
 Plt::~Plt() {
     
-};
+};  // Plt::~Plt();
 
 
 // PltXY
@@ -39,7 +39,7 @@ void PltXY::setData(int N, float* Y, float* X) {
     };
     this->dx = (this->xN-this->x0) / (this->Xmax-this->Xmin);
     this->dy = (this->yN-this->y0) / (this->Ymax-this->Ymin);
-};
+};  // PltXY::setData();
 
 void PltXY::draw() {
     glColor3f(0, 0, 0);
@@ -63,12 +63,12 @@ void PltXY::draw() {
             );
         };
     glEnd();
-};
+};  // PltXY::draw();
 
 PltXY::~PltXY() {
     if(this->X)
         delete[] X;
     if(this->Y)
         delete[] Y;
-};
+};  // PltXY::~PltXY();
 // ----
