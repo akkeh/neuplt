@@ -1,6 +1,8 @@
 #ifndef PLT_H
 #define PLT_H
 
+#include <fstream>
+
 #include "Ax.h"
 
 class Ax;
@@ -17,27 +19,35 @@ public:
     float x0, y0;
     float xN, yN;
 
-    Dat dat;
+    const char* fn;
+    std::string sep = "\t";
+    std::ifstream file;
+
     int N;  // # of points
     int n;  // current plotted point
 
-    void readDat(const char* fn);
+    std::string getCol(std::string line, std::string sep, int col);
+    virtual void readData() = 0;
+    virtual void setData(int N) = 0;
     virtual void draw() = 0;
 
-    Plt(Ax* ax);
+    Plt(Ax* ax, const char* fn);
     ~Plt();
 };  // class Plt
 
 class PltXY : public Plt {
 public:
+    int colX, colY;
+
     float* X;
     float* Y;
     float Xmin, Ymin, Xmax, Ymax;
     float dx, dy;
     
-    PltXY(Ax* ax) : Plt(ax){};
+    PltXY(Ax* ax, const char* fn, int colX=0, int colY=1);
     ~PltXY();
-    void setData(int N, float* Y, float* X=NULL);
+    void readData();
+    void setData(int N);//, float* Y, float* X=NULL);
     void draw();
 };  // class PltXY : Plt
 #endif

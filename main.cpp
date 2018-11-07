@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include <GLFW/glfw3.h>
 
@@ -17,7 +18,8 @@ int main() {
     win->addAx(0, 0, 1, 2);
     win->addAx(1, 0, 2, 1);
     win->addAx(1, 1, 2, 2);
-    
+   
+    /* 
     int N =0; 
     float* X; float* Y;
     std::string line;
@@ -35,16 +37,18 @@ int main() {
         i++;
     }
     f.close();
-    win->axs[0]->addPlt(xy);
-
-    ((PltXY*)win->axs[0]->plts[0])->setData(N, Y, X);
+    */
+   
+    std::vector<const char*> args{"0", "1"};
+    win->axs[0]->addPlt(xy, "./Vm.txt", args);
+    //((PltXY*)win->axs[0]->plts[0])->setData(N, Y, X);
+    win->axs[0]->plts[0]->readData();
     double time = glfwGetTime();
 
     while(win->draw()) {};
     std::cout << "point!\n";
 
     delete win;
-    delete[] X, Y;
     glfwTerminate();
 
     return 0;

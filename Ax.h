@@ -2,6 +2,7 @@
 #define AX_H
 
 #include <GLFW/glfw3.h>
+#include <vector>
 
 #include "Plt.h"    
 
@@ -24,6 +25,6 @@ public:
     Ax(float x0, float y0, float xN, float yN);
     ~Ax();
     int draw();
-    int addPlt(pltT type);
+    int addPlt(pltT type, const char* fn, std::vector<const char*> args);
 };
 #endif

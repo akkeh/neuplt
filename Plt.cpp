@@ -2,21 +2,75 @@
 
 #include <iostream>
 
-Plt::Plt(Ax* ax) {
+Plt::Plt(Ax* ax, const char* fn) {
     this->ax = ax;
     this->x0 = ax->x0;
     this->y0 = ax->y0;
     this->xN = ax->xN;
     this->yN = ax->yN;
+
+    this->fn = fn;
 };  // Plt::Plt();
 
+std::string Plt::getCol(std::string line, std::string sep, int col) {
+    if(col == 0)
+        return line.substr(0, line.find(sep));
+    else
+        return this->getCol(line.substr(line.find(sep)+1, line.find("\n")), sep, col-1);
+};
 Plt::~Plt() {
     
 };  // Plt::~Plt();
 
 
 // PltXY
-void PltXY::setData(int N, float* Y, float* X) {
+PltXY::PltXY(Ax* ax, const char* fn, int colX, int colY) : Plt(ax, fn) {
+    this->colX = colX;
+    this->colY = colY;
+};  // PltXY::PltXY();
+
+void PltXY::readData() {
+    std::string line;
+    int M = 256; int N = M; int i = 0;
+
+    // init data containers:
+    this->X = new float[N];
+    this->Y = new float[N];
+    this->Xmin = 1E38; this->Xmax = 1E-38;
+    this->Ymin = 1E38; this->Ymax = 1E-38;
+    float* tX; float* tY;
+
+    if(this->file.is_open())
+        this->file.close();
+    this->file.open(this->fn);
+
+    while(getline(this->file, line)) {
+        if(i >= N) {
+            tX = X; tY = Y;
+            this->X = new float[N+M];
+            this->Y = new float[N+M];
+            for(int n=0; n<N; n++) {
+                this->X[n] = tX[n];
+                this->Y[n] = tY[n];
+            }
+            N += M;
+        };    
+        this->X[i] = atof(this->getCol(line, this->sep, this->colX).c_str());
+        this->Y[i] = atof(this->getCol(line, this->sep, this->colY).c_str());
+        this->Xmin = std::min(this->Xmin, this->X[i]);
+        this->Xmax = std::max(this->Xmax, this->X[i]);
+        this->Ymin = std::min(this->Ymin, this->Y[i]);
+        this->Ymax = std::max(this->Ymax, this->Y[i]);
+        i++;   
+    }
+    this->file.close();
+
+    this->N = i;
+    this->dx = (this->xN-this->x0) / (this->Xmax-this->Xmin);
+    this->dy = (this->yN-this->y0) / (this->Ymax-this->Ymin);
+};  // PltXY::readData();
+
+void PltXY::setData(int N) { //, float* Y, float* X) {
     this->N = N;
     this->X = X; this->Y = Y;
     if(X) {

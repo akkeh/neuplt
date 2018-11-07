@@ -1,6 +1,6 @@
 #include "Ax.h"
 
-int Ax::addPlt(pltT type) {
+int Ax::addPlt(pltT type, const char* fn, std::vector<const char*> args) {
     Plt** tplts = this->plts;
     this->plts = new Plt*[this->pltN+1];
     for(int i=0; i<this->pltN; i++)
@@ -9,7 +9,9 @@ int Ax::addPlt(pltT type) {
     Plt* p;
     switch(type) {
         case xy:
-            p = new PltXY(this);
+            int colX = atoi(args[0]);
+            int colY = atoi(args[1]); 
+            p = new PltXY(this, fn, colX, colY);
         break;
     };
     this->plts[this->pltN] = p;
