@@ -8,7 +8,7 @@ Plt::Plt(Ax* ax, const char* fn) {
     this->y0 = ax->y0;
     this->xN = ax->xN;
     this->yN = ax->yN;
-
+    this->cr = 0; this->cg = 0; this->cb = 0;
     this->fn = fn;
 };  // Plt::Plt();
 
@@ -55,7 +55,10 @@ void PltXY::readData() {
             }
             N += M;
         };    
-        this->X[i] = atof(this->getCol(line, this->sep, this->colX).c_str());
+        if(this->colX > 0)
+            this->X[i] = atof(this->getCol(line, this->sep, this->colX).c_str());
+        else
+            this->X[i] = i;
         this->Y[i] = atof(this->getCol(line, this->sep, this->colY).c_str());
         this->Xmin = std::min(this->Xmin, this->X[i]);
         this->Xmax = std::max(this->Xmax, this->X[i]);
@@ -96,7 +99,7 @@ void PltXY::setData(int N) { //, float* Y, float* X) {
 };  // PltXY::setData();
 
 void PltXY::draw() {
-    glColor3f(0, 0, 0);
+    glColor3f(this->cr, this->cg, this->cb);
     float xA, xB, yA, yB;
     glBegin(GL_LINES);
         for(int n=0; n<this->N-1; n++) {

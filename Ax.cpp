@@ -9,8 +9,14 @@ int Ax::addPlt(pltT type, const char* fn, std::vector<const char*> args) {
     Plt* p;
     switch(type) {
         case xy:
-            int colX = atoi(args[0]);
-            int colY = atoi(args[1]); 
+            int colX = -1; int colY = 0;
+            if(args.size() == 2) {
+                colX = atoi(args[0]);
+                colY = atoi(args[1]); 
+            } else if(args.size() == 1) {
+                colY = atoi(args[0]);
+                colX = -1;
+            };
             p = new PltXY(this, fn, colX, colY);
         break;
     };

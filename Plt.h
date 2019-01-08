@@ -18,6 +18,7 @@ public:
     Ax* ax;   
     float x0, y0;
     float xN, yN;
+    float cr, cg, cb;
 
     const char* fn;
     std::string sep = "\t";
