@@ -1,5 +1,11 @@
 #ifndef PLT_H
 #define PLT_H
+/* ----------------------------------------------------------------- |
+    Line types: 
+        '-': default, 
+        '.': dots, 
+        '-.': solid+dots
+** -----------------------------------------------------------------*/
 
 #include <fstream>
 #include <cmath>
@@ -21,6 +27,7 @@ public:
     float xN, yN;
     float cr, cg, cb;
     float linewidth;
+    std::string linetype;
 
     const char* fn;
     std::string sep = "\t";
@@ -35,6 +42,7 @@ public:
     virtual void draw() = 0;
 
     Plt(Ax* ax, const char* fn);
+    void setLineType(std::string lt);
     ~Plt();
 };  // class Plt
 

@@ -9,8 +9,9 @@ Plt::Plt(Ax* ax, const char* fn) {
     this->xN = ax->xN;
     this->yN = ax->yN;
     this->cr = 0; this->cg = 0; this->cb = 0;
-    this->linewidth = std::sqrt(ax->win->w*ax->win->w+ax->win->h*ax->win->h)* 0.0005;
+    this->linewidth = std::sqrt(ax->win->w*ax->win->w+ax->win->h*ax->win->h)* 0.00025;
 
+    this->linetype = "-";
     this->fn = fn;
 };  // Plt::Plt();
 
@@ -20,6 +21,11 @@ std::string Plt::getCol(std::string line, std::string sep, int col) {
     else
         return this->getCol(line.substr(line.find(sep)+1, line.find("\n")), sep, col-1);
 };
+
+void Plt::setLineType(std::string lt) {
+    this->linetype = lt;
+};  // Plt::setLineType()
+
 Plt::~Plt() {
     
 };  // Plt::~Plt();
@@ -106,37 +112,50 @@ void PltXY::draw() {
 
     float alpha, beta;
     float xAa, yAa, xAb, yAb, xBa, yBa, xBb, yBb;
-    glBegin(GL_TRIANGLES);
-        for(int n=0; n<this->N-1; n++) {
-            // calculate line AB points:
-            if(this->X) {
-                xA = this->X[n];
-                xB = this->X[n+1];
-            } else {
-                xA = n;
-                xB = (n+1);
-            };
-            xA = this->x0+(xA-this->Xmin)*dx;
-            xB = this->x0+(xB-this->Xmin)*dx;
-            yA = this->y0+(this->Y[n]-this->Ymin)*dy;
-            yB = this->y0+(this->Y[n+1]-this->Ymin)*dy;
-            // calculate slope:
-            alpha = std::atan2(yB-yA, xB-xA);
-            // calculate points:
-            xAa = xA+std::cos(alpha-90)*this->linewidth/2;
-            yAa = yA+std::sin(alpha-90)*this->linewidth/2;
-            xAb = xA+std::cos(alpha+90)*this->linewidth/2;
-            yAb = yA+std::sin(alpha+90)*this->linewidth/2;
-
-            xBa = xB-std::cos(alpha-90)*this->linewidth/2;
-            yBa = yB-std::sin(alpha-90)*this->linewidth/2;
-            xBb = xB-std::cos(alpha+90)*this->linewidth/2;
-            yBb = yB-std::sin(alpha+90)*this->linewidth/2;
-            
-            glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xAb, yAb);
-            glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xBb, yBb);
+    for(int n=0; n<this->N-1; n++) {
+        // calculate line AB points:
+        if(this->X) {
+            xA = this->X[n];
+            xB = this->X[n+1];
+        } else {
+            xA = n;
+            xB = (n+1);
         };
-    glEnd();
+        xA = this->x0+(xA-this->Xmin)*dx;
+        xB = this->x0+(xB-this->Xmin)*dx;
+        yA = this->y0+(this->Y[n]-this->Ymin)*dy;
+        yB = this->y0+(this->Y[n+1]-this->Ymin)*dy;
+        if(this->linetype[0] == '-') {  // draw normal line:
+            glBegin(GL_TRIANGLES);
+                // calculate slope:
+                alpha = std::atan2(yB-yA, xB-xA);
+                // calculate points:
+                xAa = xA+std::cos(alpha-90)*this->linewidth/2;
+                yAa = yA+std::sin(alpha-90)*this->linewidth/2;
+                xAb = xA+std::cos(alpha+90)*this->linewidth/2;
+                yAb = yA+std::sin(alpha+90)*this->linewidth/2;
+
+                xBa = xB-std::cos(alpha-90)*this->linewidth/2;
+                yBa = yB-std::sin(alpha-90)*this->linewidth/2;
+                xBb = xB-std::cos(alpha+90)*this->linewidth/2;
+                yBb = yB-std::sin(alpha+90)*this->linewidth/2;
+                
+                glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xAb, yAb);
+                glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xBb, yBb);
+            glEnd();
+        };
+        if(this->linetype[0] == '.' || this->linetype[1] == '.') {
+            glBegin(GL_TRIANGLES);
+                xAa = xA-this->linewidth;
+                xAb = xA+this->linewidth;
+                yAa = yA-this->linewidth;
+                yAb = yA+this->linewidth;
+
+                glVertex2f(xA, yAa); glVertex2f(xAb, yA); glVertex2f(xA, yAb);
+                glVertex2f(xA, yAa); glVertex2f(xAa, yA); glVertex2f(xA, yAb);
+            glEnd();
+        };
+    }
 };  // PltXY::draw();
 
 PltXY::~PltXY() {

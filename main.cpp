@@ -56,7 +56,9 @@ int main() {
     win->axs[1]->plts[1]->cr = 1;
     win->axs[1]->plts[2]->readData();
     win->axs[1]->plts[2]->cg = 1;
+
     win->axs[2]->plts[0]->readData();
+    win->axs[2]->plts[0]->setLineType(".");
     double time = glfwGetTime();
 
     while(win->draw()) {};
