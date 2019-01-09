@@ -2,6 +2,7 @@
 #define PLT_H
 
 #include <fstream>
+#include <cmath>
 
 #include "Ax.h"
 
@@ -19,6 +20,7 @@ public:
     float x0, y0;
     float xN, yN;
     float cr, cg, cb;
+    float linewidth;
 
     const char* fn;
     std::string sep = "\t";

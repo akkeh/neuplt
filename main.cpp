@@ -40,13 +40,15 @@ int main() {
     */
    
     std::vector<const char*> args{"0", "1"};
-    win->axs[0]->addPlt(xy, "./Vm.txt", args);
+    win->axs[0]->addPlt(xy, "./data/Vm.txt", args);
     std::vector<const char*> args2{"0"};
-    win->axs[1]->addPlt(xy, "./gates.txt", args2);
+    win->axs[1]->addPlt(xy, "./data/gates.txt", args2);
     std::vector<const char*> args3{"1"};
-    win->axs[1]->addPlt(xy, "./gates.txt", args3);
+    win->axs[1]->addPlt(xy, "./data/gates.txt", args3);
     std::vector<const char*> args4{"2"};
-    win->axs[1]->addPlt(xy, "./gates.txt", args4);
+    win->axs[1]->addPlt(xy, "./data/gates.txt", args4);
+    std::vector<const char*> args5{"0", "1"};
+    win->axs[2]->addPlt(xy, "./data/spikes.txt", args5);
     //((PltXY*)win->axs[0]->plts[0])->setData(N, Y, X);
     win->axs[0]->plts[0]->readData();
     win->axs[1]->plts[0]->readData();
@@ -54,6 +56,7 @@ int main() {
     win->axs[1]->plts[1]->cr = 1;
     win->axs[1]->plts[2]->readData();
     win->axs[1]->plts[2]->cg = 1;
+    win->axs[2]->plts[0]->readData();
     double time = glfwGetTime();
 
     while(win->draw()) {};

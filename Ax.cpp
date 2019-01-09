@@ -47,7 +47,8 @@ int Ax::draw() {
     return 0;
 };
 
-Ax::Ax(float x0, float y0, float xN, float yN) {
+Ax::Ax(Win* win, float x0, float y0, float xN, float yN) {
+    this->win = win;
     this->x0 = x0; this->y0 = y0;
     this->xN = xN; this->yN = yN;
 

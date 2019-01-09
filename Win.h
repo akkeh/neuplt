@@ -22,6 +22,7 @@
     |  ]   bh                [  |
     |---------------------------|
 */
+class Ax;
 class Win {
 public:
     int w, h;               // width, height

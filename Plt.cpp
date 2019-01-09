@@ -9,6 +9,8 @@ Plt::Plt(Ax* ax, const char* fn) {
     this->xN = ax->xN;
     this->yN = ax->yN;
     this->cr = 0; this->cg = 0; this->cb = 0;
+    this->linewidth = std::sqrt(ax->win->w*ax->win->w+ax->win->h*ax->win->h)* 0.0005;
+
     this->fn = fn;
 };  // Plt::Plt();
 
@@ -101,23 +103,38 @@ void PltXY::setData(int N) { //, float* Y, float* X) {
 void PltXY::draw() {
     glColor3f(this->cr, this->cg, this->cb);
     float xA, xB, yA, yB;
-    glBegin(GL_LINES);
+
+    float alpha, beta;
+    float xAa, yAa, xAb, yAb, xBa, yBa, xBb, yBb;
+    glBegin(GL_TRIANGLES);
         for(int n=0; n<this->N-1; n++) {
+            // calculate line AB points:
             if(this->X) {
-                xA = this->X[n] * this->dx;
-                xB = this->X[n+1] * this->dx;
+                xA = this->X[n];
+                xB = this->X[n+1];
             } else {
-                xA = n * this->dx;
-                xB = (n+1) * this->dx;
+                xA = n;
+                xB = (n+1);
             };
-            glVertex2f(
-                this->x0+(xA-this->Xmin), 
-                this->y0+(this->Y[n]-this->Ymin)*dy
-            );
-            glVertex2f(
-                this->x0+(xB-this->Xmin), 
-                this->y0+(this->Y[n+1]-this->Ymin)*dy
-            );
+            xA = this->x0+(xA-this->Xmin)*dx;
+            xB = this->x0+(xB-this->Xmin)*dx;
+            yA = this->y0+(this->Y[n]-this->Ymin)*dy;
+            yB = this->y0+(this->Y[n+1]-this->Ymin)*dy;
+            // calculate slope:
+            alpha = std::atan2(yB-yA, xB-xA);
+            // calculate points:
+            xAa = xA+std::cos(alpha-90)*this->linewidth/2;
+            yAa = yA+std::sin(alpha-90)*this->linewidth/2;
+            xAb = xA+std::cos(alpha+90)*this->linewidth/2;
+            yAb = yA+std::sin(alpha+90)*this->linewidth/2;
+
+            xBa = xB-std::cos(alpha-90)*this->linewidth/2;
+            yBa = yB-std::sin(alpha-90)*this->linewidth/2;
+            xBb = xB-std::cos(alpha+90)*this->linewidth/2;
+            yBb = yB-std::sin(alpha+90)*this->linewidth/2;
+            
+            glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xAb, yAb);
+            glVertex2f(xAa, yAa); glVertex2f(xBa, yBa); glVertex2f(xBb, yBb);
         };
     glEnd();
 };  // PltXY::draw();

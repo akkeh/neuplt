@@ -10,7 +10,7 @@ int Win::addAx(int r0, int c0, int rN, int cN) {
     float xN = x0 + this->col_w*((float)(cN-c0))-((float)(cN-c0)<this->cols)*this->col_sep/2; 
     float yN = y0 + this->row_h*((float)(rN-r0))-((float)(rN-r0)<this->rows)*this->row_sep/2;
 
-    Ax* nax = new Ax(x0, y0, xN, yN);
+    Ax* nax = new Ax(this, x0, y0, xN, yN);
     Ax** tax = this->axs;
     this->axs = new Ax*[this->Nax+1];
     for(int i=0; i<this->Nax; i++)
